@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -148,20 +149,24 @@ public class ImcCalculationActivity extends AppCompatActivity {
 
             Imc imcClass = new Imc(date, imc, pmax, pmin, ig, mg, at, mineral, protein);
 
-//            Toast.makeText(this, timeFormat.format(time), Toast.LENGTH_LONG).show();
+            final ProgressDialog dialog = ProgressDialog.show(ImcCalculationActivity.this, "",
+                    "Loading. Please wait...", true);
+
             mDatabase.child(Globals.id).child(date).child(timeFormat.format(time)).setValue(imcClass)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(ImcCalculationActivity.this, "Yes", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                finish();
                             }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ImcCalculationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            Toast.makeText(ImcCalculationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
         } catch (Exception e) {
