@@ -52,16 +52,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(
-                "Id: " + Globals.id +
-                "Name: " + Globals.name +
-                "BirthDate: " + Globals.birthDate +
-                "Gender: " + Globals.gender +
-                "Height: " + Globals.height +
-                "Weight: " + Globals.weight);
-
-        builder.show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage(
+//                "Id: " + Globals.id +
+//                "Name: " + Globals.name +
+//                "BirthDate: " + Globals.birthDate +
+//                "Gender: " + Globals.gender +
+//                "Height: " + Globals.height +
+//                "Weight: " + Globals.weight);
+//
+//        builder.show();
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = ExpandableListDataPump.getData();

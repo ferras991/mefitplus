@@ -1,5 +1,6 @@
 package com.example.exercicio3_imc;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,9 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.exercicio3_imc.Class.Imc;
 import com.example.exercicio3_imc.Class.User;
 import com.example.exercicio3_imc.Globals.Globals;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,6 +31,19 @@ public class ImcCalculationActivity extends AppCompatActivity {
 
     private EditText weightField, weightDate;
     private Button saveBtn;
+
+    double imc = 0.0;
+    double pmin = 0.0;
+    double pmax = 0.0;
+    double ig = 0.0;
+    double mg = 0.0;
+    double at = 0.0;
+    double mineral = 0.0;
+    double protein = 0.0;
+
+    private Calendar now = Calendar.getInstance();
+
+    private DatabaseReference mDatabase;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -36,6 +57,7 @@ public class ImcCalculationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_imc_calculation);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference("imcs");
 
         weightField = findViewById(R.id.weightImcCalculation);
         weightDate = findViewById(R.id.weightDateImcCalculation);
@@ -65,27 +87,27 @@ public class ImcCalculationActivity extends AppCompatActivity {
             double weight = Double.parseDouble(weightField.getText().toString());
 
             User user = new User();
-            double imc = user.calculateImc(weight, Globals.height);
-            double pmin = user.calculatePMin(Globals.height);
-            double pmax = user.calculatePMax(Globals.height);
-            double ig = user.calculateIg(calculateAge(), Globals.gender, imc);
-            double mg = user.calculateMg(weight, ig);
-            double at = user.calculateAt(Globals.gender, calculateAge(), Globals.height, weight);
-            double mineral = user.calculateMineral(weight, mg, at);
-            double proteina = user.calculateProteina(weight, mg, at);
+            imc = user.calculateImc(weight, Globals.height);
+            pmin = user.calculatePMin(Globals.height);
+            pmax = user.calculatePMax(Globals.height);
+            ig = user.calculateIg(calculateAge(), Globals.gender, imc);
+            mg = user.calculateMg(weight, ig);
+            at = user.calculateAt(Globals.gender, calculateAge(), Globals.height, weight);
+            mineral = user.calculateMineral(weight, mg, at);
+            protein = user.calculateProteina(weight, mg, at);
 
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("User IMC");
             builder.setMessage(
-                    "IMC: " + imc + "" +
-                    "\nPmin: " + pmin +
-                    "\nPmax: " + pmax +
-                    "\nIg: " + ig +
-                    "\nMg: " + mg +
-                    "\nAt: " + at +
-                    "\nMineral: " + mineral +
-                    "\nProtein: " + proteina);
+                    "IMC: " + imc +
+                            "\nPmin: " + pmin +
+                            "\nPmax: " + pmax +
+                            "\nIg: " + ig +
+                            "\nMg: " + mg +
+                            "\nAt: " + at +
+                            "\nMineral: " + mineral +
+                            "\nProtein: " + protein);
 
             builder.show();
 
@@ -94,7 +116,6 @@ public class ImcCalculationActivity extends AppCompatActivity {
     }
 
     private int calculateAge() {
-        Calendar now = Calendar.getInstance();
         String date = Globals.birthDate;
 
         String[] paths = date.split("/");
@@ -105,7 +126,7 @@ public class ImcCalculationActivity extends AppCompatActivity {
         int year = now.get(Calendar.YEAR); //get current year
         int age = year - userYear;
         int month1 = (now.get(Calendar.MONTH) + 1); //get current month
-//
+
         if ((userMonth) > month1) {
             age--;
         } else if (month1 == (userMonth)) {
@@ -119,7 +140,34 @@ public class ImcCalculationActivity extends AppCompatActivity {
     }
 
     private void keepWeightBtn() {
-        Toast.makeText(this, "Cenas", Toast.LENGTH_SHORT).show();
+        try{
+            DateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
+            Date time = new Date();
+
+            String date = (now.get(Calendar.DAY_OF_MONTH)) + "-" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.YEAR);
+
+            Imc imcClass = new Imc(date, imc, pmax, pmin, ig, mg, at, mineral, protein);
+
+//            Toast.makeText(this, timeFormat.format(time), Toast.LENGTH_LONG).show();
+            mDatabase.child(Globals.id).child(date).child(timeFormat.format(time)).setValue(imcClass)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(ImcCalculationActivity.this, "Yes", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ImcCalculationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
     }
 
 }

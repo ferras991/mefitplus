@@ -13,7 +13,6 @@ public class User implements Serializable {
     private int gender;
 
     public User() {
-
     }
 
     //user constructor

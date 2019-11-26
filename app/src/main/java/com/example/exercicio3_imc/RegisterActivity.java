@@ -104,21 +104,6 @@ public class RegisterActivity extends AppCompatActivity {
                         month = selectedMonth;
                         day = selectedDay;
 
-//                        Calendar now = Calendar.getInstance();
-//
-//                        int year1 = now.get(Calendar.YEAR); //get current year
-//                        int age = year1 - year;
-//                        int month1 = (now.get(Calendar.MONTH) + 1); //get current month
-//
-//                        if ((month+1) > month1) {
-//                            age--;
-//                        } else if (month1 == (month+1)) {
-//                            int day1 = now.get(Calendar.DAY_OF_MONTH); //get current day
-//                            if (selectedDay > day1) {
-//                                age--;
-//                            }
-//                        }
-
                         //render the birthDate
                         birthField.setText(day + "/" + (month + 1) + "/" + year);
                         birthField.setError(null);

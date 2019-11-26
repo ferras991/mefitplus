@@ -25,10 +25,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
-            android:name=".Main2Activity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-
-        <activity
             android:name=".LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
