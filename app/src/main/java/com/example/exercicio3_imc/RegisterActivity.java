@@ -1,0 +1,243 @@
+package com.example.exercicio3_imc;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.Toast;
+
+import com.example.exercicio3_imc.Class.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
+
+public class RegisterActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
+    private EditText emailField, passwordField, confirmPasswordField;
+    private Button registerBtn;
+    private ProgressBar progressBar;
+    private EditText txtName, txtWeight, txtHeight, birthField;
+    private RadioButton genderM, genderF;
+
+    private Calendar currentDate = Calendar.getInstance();
+    private int day = currentDate.get(Calendar.DAY_OF_MONTH);
+    private int month = currentDate.get(Calendar.MONTH);
+    private int year = currentDate.get(Calendar.YEAR);
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setTitle(
+                getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.register)
+        );
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+
+        emailField = findViewById(R.id.emailFieldRegister);
+        passwordField = findViewById(R.id.passwordFieldRegister);
+        confirmPasswordField = findViewById(R.id.confirmPasswordFieldRegister);
+        registerBtn = findViewById(R.id.registerBtn);
+        progressBar = findViewById(R.id.progressBar);
+
+        txtName = findViewById(R.id.nameRegister); // name
+        txtWeight = findViewById(R.id.weightRegister); // weight
+        txtHeight = findViewById(R.id.heightRegister); // height
+        birthField = findViewById(R.id.birthDateRegister); // age
+        genderM = findViewById(R.id.genderMRegister); // gender
+        genderF = findViewById(R.id.genderFRegister); // gende
+    }
+
+    public void onClickRegister(View view) {
+        switch (view.getId()) {
+            case R.id.birthDateRegister:
+                getData();
+                break;
+            case R.id.genderMRegister:
+                getGender("M");
+                break;
+            case R.id.genderFRegister:
+                getGender("");
+                break;
+            case R.id.registerBtn:
+                register();
+                break;
+        }
+    }
+
+    private void getData() {
+        //open a datepickerdialog to save the user birthday date
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear,
+                                          int selectedMonth, int selectedDay) {
+                        year = selectedYear;
+                        month = selectedMonth;
+                        day = selectedDay;
+
+//                        Calendar now = Calendar.getInstance();
+//
+//                        int year1 = now.get(Calendar.YEAR); //get current year
+//                        int age = year1 - year;
+//                        int month1 = (now.get(Calendar.MONTH) + 1); //get current month
+//
+//                        if ((month+1) > month1) {
+//                            age--;
+//                        } else if (month1 == (month+1)) {
+//                            int day1 = now.get(Calendar.DAY_OF_MONTH); //get current day
+//                            if (selectedDay > day1) {
+//                                age--;
+//                            }
+//                        }
+
+                        //render the birthDate
+                        birthField.setText(day + "/" + (month + 1) + "/" + year);
+                        birthField.setError(null);
+                    }
+                }, day, month , year);
+        datePickerDialog.updateDate(year, month, day);
+        datePickerDialog.show();
+    }
+
+    private void getGender(String gender) {
+        //check which gender radiobutton is checked
+        if (gender.equals("M")) {
+            genderM.setChecked(true);
+            genderF.setChecked(false);
+        } else {
+            genderF.setChecked(true);
+            genderM.setChecked(false);
+        }
+    }
+
+    private void register() {
+        progressBar.setVisibility(View.VISIBLE);
+        registerBtn.setEnabled(false);
+
+        if (emailField.getText().toString().isEmpty() || passwordField.getText().toString().isEmpty()
+                || confirmPasswordField.getText().toString().isEmpty() || txtName.getText().toString().isEmpty()
+                || txtWeight.getText().toString().isEmpty() || txtHeight.getText().toString().isEmpty()
+                || birthField.getText().toString().isEmpty()) {
+            checkAllFields();
+        } else {
+            final String email = emailField.getText().toString();
+            String password = passwordField.getText().toString();
+            final String name = txtName.getText().toString();
+            final double weight = Double.parseDouble(txtWeight.getText().toString());
+            final double height = Double.parseDouble(txtHeight.getText().toString());
+            final String age = birthField.getText().toString();
+            final int gender = (genderM.isChecked()) ? 1 : 0 ;
+
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            Toast.makeText(RegisterActivity.this, getResources().getString(R.string.userSuccess), Toast.LENGTH_LONG).show();
+
+                            String uid = mAuth.getUid();
+
+                            User user = new User(uid, name, weight, height, age, gender);
+
+                            mDatabase.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                        finish();
+                                    }
+                                    progressBar.setVisibility(View.INVISIBLE);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                                    builder.setTitle(getResources().getString(R.string.userFail));
+                                    builder.setMessage(e.getMessage());
+                                    builder.show();
+
+                                    progressBar.setVisibility(View.INVISIBLE);
+                                    registerBtn.setEnabled(true);
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                            builder.setTitle(getResources().getString(R.string.userFail));
+                            builder.setMessage(e.getMessage());
+                            builder.show();
+
+                            progressBar.setVisibility(View.INVISIBLE);
+                        }
+                    });
+        }
+    }
+
+    private void checkAllFields(){
+        if (emailField.getText().toString().isEmpty()) {
+            emailField.setError(getResources().getString(R.string.fields_empty_error));
+        }
+
+        if (passwordField.getText().toString().isEmpty()) {
+            passwordField.setError(getResources().getString(R.string.fields_empty_error));
+        } else if (!passwordField.getText().toString().equals(confirmPasswordField.getText().toString())) {
+            passwordField.setError(getResources().getString(R.string.passwords_match));
+        }
+
+        if (confirmPasswordField.getText().toString().isEmpty()) {
+            confirmPasswordField.setError(getResources().getString(R.string.fields_empty_error));
+        } else if (!passwordField.getText().toString().equals(confirmPasswordField.getText().toString())) {
+            passwordField.setError(getResources().getString(R.string.passwords_match));
+        }
+
+        if (txtName.getText().toString().isEmpty()) {
+            txtName.setError(getResources().getString(R.string.fields_empty_error));
+        }
+
+        if (txtWeight.getText().toString().isEmpty()) {
+            txtWeight.setError(getResources().getString(R.string.fields_empty_error));
+        }
+
+        if (txtHeight.getText().toString().isEmpty()) {
+            txtHeight.setError(getResources().getString(R.string.fields_empty_error));
+        }
+
+        if (birthField.getText().toString().isEmpty()) {
+            birthField.setError(getResources().getString(R.string.fields_empty_error));
+        }
+
+        progressBar.setVisibility(View.INVISIBLE);
+        registerBtn.setEnabled(true);
+    }
+}

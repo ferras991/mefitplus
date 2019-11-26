@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IMC</string>
+    <string name="userName">Nome:</string>
+    <string name="userWeight">"Massa: "</string>
+    <string name="userHeight">"Altura: "</string>
+    <string name="userBirthdate">"Dt Nascimento: "</string>
+    <string name="userGender">"Género: "</string>
+    <string name="fields_default_error">Tem de inserir todas as informações</string>
+    <string name="fields_empty_error">Necessário</string>
+    <string name="userPmin">Peso Mínimo Ideal (Kg):</string>
+    <string name="userPmax">Peso Máximo Ideal (Kg):</string>
+    <string name="userFatIndex">Índice de Gordura (%):</string>
+    <string name="userFatMass">Massa Gorda (Kg):</string>
+    <string name="userTotalWater">Água Total (Kg):</string>
+    <string name="userMineral">Mineral (Kg):</string>
+    <string name="userProtein">Proteína (Kg):</string>
+    <string name="register">Registar</string>
+    <string name="confirm">Confirmar Senha:</string>
+    <string name="registerTxt">Não tens conta? Regista-te!</string>
+    <string name="passwordField">Senha:</string>
+    <string name="weighingDate">Data de Pesagem:</string>
+    <string name="emptyField">Obrigatorio!</string>
+    <string name="passwords_match">Senhas Não São Iguais!</string>
+    <string name="userSuccess">Utilizador Criado Com Sucesso!</string>
+    <string name="userFail">Erro ao Criar Utilizador!</string>
+</resources>

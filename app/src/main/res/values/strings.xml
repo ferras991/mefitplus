@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">MeFit+</string>
+    <string name="userName">Name:</string>
+    <string name="userWeight">"Weight: "</string>
+    <string name="userHeight">"Height: "</string>
+    <string name="userBirthdate">"Birthdate: "</string>
+    <string name="userGender">"Gender: "</string>
+    <string name="fields_default_error">You need to insert information in all fields</string>
+    <string name="fields_empty_error">Requested</string>
+    <string name="userPmin">Ideal Minimum Weight:</string>
+    <string name="userPmax">Ideal Maximum Weight:</string>
+    <string name="userFatIndex">Fat Index (%):</string>
+    <string name="userFatMass">Fat Mass:</string>
+    <string name="userTotalWater">Total Water:</string>
+    <string name="userMineral">Mineral:</string>
+    <string name="userProtein">Protein:</string>
+    <string name="register">Register</string>
+    <string name="confirm">Confirm Password:</string>
+    <string name="registerTxt">You don\'t have an account? Create one!</string>
+    <string name="passwordField">Password:</string>
+    <string name="weighingDate">Weighing Date:</string>
+    <string name="emptyField">Required!</string>
+    <string name="passwords_match">Paswords Do not Match!</string>
+    <string name="userSuccess">User Created Successfully!</string>
+    <string name="userFail">User Creation Failed!</string>
+</resources>

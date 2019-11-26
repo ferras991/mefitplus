@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "882557551980",
+    "firebase_url": "https://mefitmais.firebaseio.com",
+    "project_id": "mefitmais",
+    "storage_bucket": "mefitmais.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:882557551980:android:2e32d6cbf28f47de47df49",
+        "android_client_info": {
+          "package_name": "com.example.exercicio3_imc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "882557551980-jbckjotk4tbqkel3l0vu82qc3baj6ml1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.exercicio3_imc",
+            "certificate_hash": "96f3756958636cf89b49ab64a23b5fc11a5a3f46"
+          }
+        },
+        {
+          "client_id": "882557551980-729pta79aa7bb60nv7n3dpfhqql9ijvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMH5rzbTrTRy3n6OrTGxn7oCLfOZf3OnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "882557551980-729pta79aa7bb60nv7n3dpfhqql9ijvr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
