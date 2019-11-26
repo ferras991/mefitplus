@@ -82,38 +82,43 @@ public class ImcCalculationActivity extends AppCompatActivity {
     }
 
     private void calculateImc() {
-        if (weightField.getText().toString().isEmpty()) {
-            weightField.setError(getResources().getString(R.string.emptyField));
-        } else {
-            double weight = Double.parseDouble(weightField.getText().toString());
+        try{
+            if (weightField.getText().toString().isEmpty()) {
+                weightField.setError(getResources().getString(R.string.emptyField));
+            } else {
+                double weight = Double.parseDouble(weightField.getText().toString());
 
-            User user = new User();
-            imc = user.calculateImc(weight, Globals.height);
-            pmin = user.calculatePMin(Globals.height);
-            pmax = user.calculatePMax(Globals.height);
-            ig = user.calculateIg(calculateAge(), Globals.gender, imc);
-            mg = user.calculateMg(weight, ig);
-            at = user.calculateAt(Globals.gender, calculateAge(), Globals.height, weight);
-            mineral = user.calculateMineral(weight, mg, at);
-            protein = user.calculateProteina(weight, mg, at);
+                User user = new User();
+                imc = user.calculateImc(weight, Globals.height);
+                pmin = user.calculatePMin(Globals.height);
+                pmax = user.calculatePMax(Globals.height);
+                ig = user.calculateIg(calculateAge(), Globals.gender, imc);
+                mg = user.calculateMg(weight, ig);
+                at = user.calculateAt(Globals.gender, calculateAge(), Globals.height, weight);
+                mineral = user.calculateMineral(weight, mg, at);
+                protein = user.calculateProteina(weight, mg, at);
 
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("User IMC");
-            builder.setMessage(
-                    "IMC: " + imc +
-                            "\nPmin: " + pmin +
-                            "\nPmax: " + pmax +
-                            "\nIg: " + ig +
-                            "\nMg: " + mg +
-                            "\nAt: " + at +
-                            "\nMineral: " + mineral +
-                            "\nProtein: " + protein);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("User IMC");
+                builder.setMessage(
+                        "IMC: " + imc +
+                                "\nPmin: " + pmin +
+                                "\nPmax: " + pmax +
+                                "\nIg: " + ig +
+                                "\nMg: " + mg +
+                                "\nAt: " + at +
+                                "\nMineral: " + mineral +
+                                "\nProtein: " + protein);
 
-            builder.show();
+                builder.show();
 
-            saveBtn.setEnabled(true);
+                saveBtn.setEnabled(true);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
+
     }
 
     private int calculateAge() {

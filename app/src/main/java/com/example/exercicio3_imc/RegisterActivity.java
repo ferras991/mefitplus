@@ -1,6 +1,7 @@
 package com.example.exercicio3_imc;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,12 +17,16 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.exercicio3_imc.Class.User;
+import com.example.exercicio3_imc.Globals.Globals;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -139,7 +144,7 @@ public class RegisterActivity extends AppCompatActivity {
             final String name = txtName.getText().toString();
             final double weight = Double.parseDouble(txtWeight.getText().toString());
             final double height = Double.parseDouble(txtHeight.getText().toString());
-            final String age = birthField.getText().toString();
+            final String birthDate = birthField.getText().toString();
             final int gender = (genderM.isChecked()) ? 1 : 0 ;
 
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -148,16 +153,15 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onSuccess(AuthResult authResult) {
                             Toast.makeText(RegisterActivity.this, getResources().getString(R.string.userSuccess), Toast.LENGTH_LONG).show();
 
-                            String uid = mAuth.getUid();
+                            final String uid = mAuth.getUid();
 
-                            User user = new User(uid, name, weight, height, age, gender);
+                            User user = new User(uid, name, weight, height, birthDate, gender);
 
                             mDatabase.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                                        finish();
+                                        sendToMain(uid, name, weight, height, birthDate,gender);
                                     }
                                     progressBar.setVisibility(View.INVISIBLE);
                                 }
@@ -224,5 +228,27 @@ public class RegisterActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.INVISIBLE);
         registerBtn.setEnabled(true);
+    }
+
+    private void sendToMain(final String userId, String name, double weight, double height, String birthDate, int gender) {
+        Globals.id = userId;
+        Globals.email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Globals.name = name;
+        Globals.birthDate = birthDate;
+        Globals.gender = gender;
+        Globals.height = height;
+        Globals.weight = weight;
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            System.out.println("Main thread Interrupted");
+        }
+
+        progressBar.setVisibility(View.INVISIBLE);
+
+        System.out.println("Main thread exiting.");
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }
