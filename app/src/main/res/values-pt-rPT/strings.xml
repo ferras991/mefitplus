@@ -24,4 +24,6 @@
     <string name="passwords_match">Senhas Não São Iguais!</string>
     <string name="userSuccess">Utilizador Criado Com Sucesso!</string>
     <string name="userFail">Erro ao Criar Utilizador!</string>
+    <string name="settingsTxt">Definições</string>
+    <string name="logoutTxt">Sair</string>
 </resources>

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.exercicio3_imc.Adapters.CustomExpandableListAdapter;
 import com.example.exercicio3_imc.Adapters.ExpandableListDataPump;
 import com.example.exercicio3_imc.Globals.Globals;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+
+    private FirebaseAuth mAuth;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -41,16 +44,30 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.cenas:
                 startActivity(new Intent(MainActivity.this, ImcCalculationActivity.class));
-                return true;
+                break;
+            case R.id.logout:
+                try {
+                    mAuth.signOut();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                } catch (Exception e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                break;
             default:
-                return super.onOptionsItemSelected(item);
+                return false;
         }
+
+        return false;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
 
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        builder.setMessage(

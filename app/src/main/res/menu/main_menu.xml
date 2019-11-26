@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.pedro.pap.PAP.MainActivity">
 
-
     <item
         android:id="@+id/cenas"
-        android:title="Cenas"
-        />
+        android:title="@string/settingsTxt" />
+
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logoutTxt" />
 </menu>

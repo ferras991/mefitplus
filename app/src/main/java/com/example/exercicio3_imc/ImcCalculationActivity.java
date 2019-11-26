@@ -156,6 +156,7 @@ public class ImcCalculationActivity extends AppCompatActivity {
 
             final ProgressDialog dialog = ProgressDialog.show(ImcCalculationActivity.this, "",
                     "Loading. Please wait...", true);
+            dialog.setCancelable(false);
 
             mDatabase.child(Globals.id).child(date).child(timeFormat.format(time)).setValue(imcClass)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {

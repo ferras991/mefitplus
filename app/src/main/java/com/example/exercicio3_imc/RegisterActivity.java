@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -39,7 +40,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText emailField, passwordField, confirmPasswordField;
     private Button registerBtn;
-    private ProgressBar progressBar;
     private EditText txtName, txtWeight, txtHeight, birthField;
     private RadioButton genderM, genderF;
 
@@ -47,6 +47,9 @@ public class RegisterActivity extends AppCompatActivity {
     private int day = currentDate.get(Calendar.DAY_OF_MONTH);
     private int month = currentDate.get(Calendar.MONTH);
     private int year = currentDate.get(Calendar.YEAR);
+
+    private ProgressDialog dialog;
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -70,7 +73,6 @@ public class RegisterActivity extends AppCompatActivity {
         passwordField = findViewById(R.id.passwordFieldRegister);
         confirmPasswordField = findViewById(R.id.confirmPasswordFieldRegister);
         registerBtn = findViewById(R.id.registerBtn);
-        progressBar = findViewById(R.id.progressBar);
 
         txtName = findViewById(R.id.nameRegister); // name
         txtWeight = findViewById(R.id.weightRegister); // weight
@@ -130,7 +132,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void register() {
-        progressBar.setVisibility(View.VISIBLE);
+        dialog = ProgressDialog.show(RegisterActivity.this, "",
+                "Loading. Please wait...", true);
+        dialog.setCancelable(false);
+
         registerBtn.setEnabled(false);
 
         if (emailField.getText().toString().isEmpty() || passwordField.getText().toString().isEmpty()
@@ -163,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         sendToMain(uid, name, weight, height, birthDate,gender);
                                     }
-                                    progressBar.setVisibility(View.INVISIBLE);
+                                    dialog.dismiss();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -173,7 +178,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     builder.setMessage(e.getMessage());
                                     builder.show();
 
-                                    progressBar.setVisibility(View.INVISIBLE);
+                                    dialog.dismiss();
+
                                     registerBtn.setEnabled(true);
                                 }
                             });
@@ -187,7 +193,7 @@ public class RegisterActivity extends AppCompatActivity {
                             builder.setMessage(e.getMessage());
                             builder.show();
 
-                            progressBar.setVisibility(View.INVISIBLE);
+                            dialog.dismiss();
                         }
                     });
         }
@@ -226,7 +232,7 @@ public class RegisterActivity extends AppCompatActivity {
             birthField.setError(getResources().getString(R.string.fields_empty_error));
         }
 
-        progressBar.setVisibility(View.INVISIBLE);
+        dialog.dismiss();
         registerBtn.setEnabled(true);
     }
 
@@ -245,9 +251,8 @@ public class RegisterActivity extends AppCompatActivity {
             System.out.println("Main thread Interrupted");
         }
 
-        progressBar.setVisibility(View.INVISIBLE);
+        dialog.dismiss();
 
-        System.out.println("Main thread exiting.");
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

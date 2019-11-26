@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -31,13 +32,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private ProgressBar progressBar;
     private EditText emailField, passwordField;
     private Button loginBtn;
     private TextView registerTxt;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
+
+    private ProgressDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("users");
 
-        progressBar = findViewById(R.id.loginProgressBar);
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
         registerTxt = findViewById(R.id.registerTxt);
@@ -68,7 +70,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        progressBar.setVisibility(View.VISIBLE);
+        dialog = ProgressDialog.show(LoginActivity.this, "",
+                "Loading. Please wait...", true);
+        dialog.setCancelable(false);
+
         loginBtn.setEnabled(false);
         registerTxt.setEnabled(false);
 
@@ -93,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
             registerTxt.setEnabled(true);
         }
 
-        progressBar.setVisibility(View.INVISIBLE);
+        dialog.dismiss();
     }
 
     private void getInfo() {
@@ -113,8 +118,6 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        progressBar.setVisibility(View.INVISIBLE);
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                         builder.setTitle("Login Failed");
                         builder.setMessage(e.getMessage());
@@ -122,6 +125,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         loginBtn.setEnabled(true);
                         registerTxt.setEnabled(true);
+
+                        dialog.dismiss();
                     }
                 });
     }
@@ -175,9 +180,8 @@ public class LoginActivity extends AppCompatActivity {
             System.out.println("Main thread Interrupted");
         }
 
-        progressBar.setVisibility(View.INVISIBLE);
+        dialog.dismiss();
 
-        System.out.println("Main thread exiting.");
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
