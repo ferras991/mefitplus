@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.cenas:
-                startActivity(new Intent(MainActivity.this, ImcCalculationActivity.class));
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
             case R.id.logout:
                 try {

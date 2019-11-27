@@ -26,4 +26,6 @@
     <string name="userFail">Erro ao Criar Utilizador!</string>
     <string name="settingsTxt">Definições</string>
     <string name="logoutTxt">Sair</string>
+    <string name="calculateIMCTxt">Calcular Novo IMC</string>
+    <string name="userInfo">Informações do Utilizador</string>
 </resources>

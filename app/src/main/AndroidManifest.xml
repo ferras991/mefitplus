@@ -10,13 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".UserInfo"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:parentActivityName=".SettingsActivity"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".PasswordRecuperation"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".LoginActivity"/>
+            android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".ImcCalculationActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".SettingsActivity" />
         <activity
             android:name=".RegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
