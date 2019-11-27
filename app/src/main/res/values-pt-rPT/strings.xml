@@ -31,4 +31,11 @@
     <string name="changePassword">Alterar Senha</string>
     <string name="currentPassword">Senha Atual:</string>
     <string name="newPassword">Nova Senha:</string>
+    <string name="LoadingTxt">A carregar, por favor aguarde...</string>
+    <string name="emailNotExist">O email não existe!</string>
+    <string name="emailSent">Email enviado com sucesso!</string>
+    <string name="passwordChange">Senha mudada com sucesso!</string>
+    <string name="passwordNotChange">Erro ao mudar a senha!</string>
+    <string name="genderFemale">Feminino</string>
+    <string name="genderMale">Masculino</string>
 </resources>

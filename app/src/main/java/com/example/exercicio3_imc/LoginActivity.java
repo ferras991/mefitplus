@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         dialog = ProgressDialog.show(LoginActivity.this, "",
-                "Loading. Please wait...", true);
+                getResources().getString(R.string.LoadingTxt), true);
         dialog.setCancelable(false);
 
         loginBtn.setEnabled(false);

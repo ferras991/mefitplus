@@ -49,11 +49,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public void onClickChangePassword(View view) {
         saveBtn.setEnabled(false);
         dialog = ProgressDialog.show(ChangePasswordActivity.this, "",
-                "Loading. Please wait...", true);
+                getResources().getString(R.string.LoadingTxt), true);
         dialog.setCancelable(false);
 
         if (currentPassword.getText().toString().isEmpty() || newPassword.getText().toString().isEmpty()
-            || confirmPassword.getText().toString().isEmpty()) {
+                || confirmPassword.getText().toString().isEmpty()) {
             checkFields();
         } else {
             String email = mAuth.getEmail();
@@ -69,21 +69,22 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(ChangePasswordActivity.this, "Password Changed Successfully!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.passwordChange), Toast.LENGTH_LONG).show();
                                             finish();
                                         } else {
-                                            Toast.makeText(ChangePasswordActivity.this, "Error!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.passwordNotChange), Toast.LENGTH_LONG).show();
                                         }
                                         dialog.dismiss();
                                     }
                                 })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(ChangePasswordActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                            }
-                        });
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.passwordNotChange), Toast.LENGTH_LONG).show();
+                                        dialog.dismiss();
+                                        saveBtn.setEnabled(true);
+                                    }
+                                });
                     }
                 }
             });
@@ -93,23 +94,25 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private void checkFields() {
         if (currentPassword.getText().toString().isEmpty()) {
             currentPassword.setError(getResources().getString(R.string.fields_empty_error));
-            saveBtn.setEnabled(true);
+
         }
 
         if (newPassword.getText().toString().isEmpty()) {
             newPassword.setError(getResources().getString(R.string.fields_empty_error));
-            saveBtn.setEnabled(true);
-        } else if (!newPassword.getText().toString().equals(confirmPassword.getText().toString())) {
-            newPassword.setError(getResources().getString(R.string.passwords_match));
         }
 
         if (confirmPassword.getText().toString().isEmpty()) {
             confirmPassword.setError(getResources().getString(R.string.fields_empty_error));
-            saveBtn.setEnabled(true);
-        }else if (!newPassword.getText().toString().equals(confirmPassword.getText().toString())) {
-            newPassword.setError(getResources().getString(R.string.passwords_match));
         }
 
+        if (!newPassword.getText().toString().equals(confirmPassword.getText().toString())
+                && !confirmPassword.getText().toString().isEmpty()
+                && !newPassword.getText().toString().isEmpty()) {
+            newPassword.setError(getResources().getString(R.string.passwords_match));
+            confirmPassword.setError(getResources().getString(R.string.passwords_match));
+        }
+
+        saveBtn.setEnabled(true);
         dialog.dismiss();
     }
 }

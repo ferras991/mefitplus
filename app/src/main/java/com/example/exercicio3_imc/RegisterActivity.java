@@ -205,14 +205,17 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (passwordField.getText().toString().isEmpty()) {
             passwordField.setError(getResources().getString(R.string.fields_empty_error));
-        } else if (!passwordField.getText().toString().equals(confirmPasswordField.getText().toString())) {
-            passwordField.setError(getResources().getString(R.string.passwords_match));
         }
 
         if (confirmPasswordField.getText().toString().isEmpty()) {
             confirmPasswordField.setError(getResources().getString(R.string.fields_empty_error));
-        } else if (!passwordField.getText().toString().equals(confirmPasswordField.getText().toString())) {
+        }
+
+        if (!passwordField.getText().toString().equals(confirmPasswordField.getText().toString())
+                && !confirmPasswordField.getText().toString().isEmpty()
+                && !passwordField.getText().toString().isEmpty()) {
             passwordField.setError(getResources().getString(R.string.passwords_match));
+            confirmPasswordField.setError(getResources().getString(R.string.passwords_match));
         }
 
         if (txtName.getText().toString().isEmpty()) {

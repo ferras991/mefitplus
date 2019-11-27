@@ -3,6 +3,8 @@ package com.example.exercicio3_imc;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +22,8 @@ public class PasswordRecuperation extends AppCompatActivity {
 
     private Button btn;
     private EditText emailField;
+
+    private ProgressDialog dialog;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -40,6 +44,10 @@ public class PasswordRecuperation extends AppCompatActivity {
     public void onClick(View view) {
         try {
             btn.setEnabled(false);
+            dialog = ProgressDialog.show(PasswordRecuperation.this, "",
+                    getResources().getString(R.string.LoadingTxt), true);
+            dialog.setCancelable(false);
+
             if (emailField.getText().toString().isEmpty()) {
                 emailField.setError(getResources().getString(R.string.fields_empty_error));
                 btn.setEnabled(true);
@@ -52,10 +60,11 @@ public class PasswordRecuperation extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                     user.delete();
-                                }
 
-                                Toast.makeText(PasswordRecuperation.this, "Email Does Not Exist", Toast.LENGTH_LONG).show();
-                                btn.setEnabled(true);
+                                    Toast.makeText(PasswordRecuperation.this, getResources().getString(R.string.emailNotExist), Toast.LENGTH_LONG).show();
+                                    btn.setEnabled(true);
+                                    dialog.dismiss();
+                                }
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -66,13 +75,17 @@ public class PasswordRecuperation extends AppCompatActivity {
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
-                                                    Toast.makeText(PasswordRecuperation.this, "Email sent", Toast.LENGTH_LONG).show();
+                                                    dialog.dismiss();
+
+                                                    Toast.makeText(PasswordRecuperation.this, getResources().getString(R.string.emailSent), Toast.LENGTH_LONG).show();
+
                                                     finish();
                                                 }
                                             });
                                 } else {
-                                    Toast.makeText(PasswordRecuperation.this, "Email Does Not Exist", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(PasswordRecuperation.this, getResources().getString(R.string.emailNotExist), Toast.LENGTH_LONG).show();
                                     btn.setEnabled(true);
+                                    dialog.dismiss();
                                 }
                             }
                         });
