@@ -15,7 +15,7 @@
     <string name="userMineral">Mineral:</string>
     <string name="userProtein">Protein:</string>
     <string name="register">Register</string>
-    <string name="confirm">Confirm Password:</string>
+    <string name="confirmPassword">Confirm Password:</string>
     <string name="registerTxt">You don\'t have an account? Create one!</string>
     <string name="passwordField">Password:</string>
     <string name="weighingDate">Weighing Date:</string>
@@ -27,4 +27,7 @@
     <string name="logoutTxt">Logout</string>
     <string name="calculateIMCTxt">Calculate New IMC</string>
     <string name="userInfo">User Info</string>
+    <string name="changePassword">Change Password</string>
+    <string name="currentPassword">Current Password:</string>
+    <string name="newPassword">New Password:</string>
 </resources>

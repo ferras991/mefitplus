@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class SettingsActivity extends AppCompatActivity {
+public class UserInfo extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -17,17 +17,15 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_user_info);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void onClickSettings(View view) {
+    public void onClickUserInfo(View view) {
         switch (view.getId()) {
-            case R.id.calculateIMCSettings:
-                startActivity(new Intent(SettingsActivity.this, ImcCalculationActivity.class));
+            case R.id.changePasswordUserInfo:
+                startActivity(new Intent(UserInfo.this, ChangePasswordActivity.class));
                 break;
-            case R.id.userSettings:
-                startActivity(new Intent(SettingsActivity.this, UserInfo.class));
         }
     }
 }

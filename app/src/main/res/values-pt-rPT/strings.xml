@@ -16,7 +16,7 @@
     <string name="userMineral">Mineral (Kg):</string>
     <string name="userProtein">Proteína (Kg):</string>
     <string name="register">Registar</string>
-    <string name="confirm">Confirmar Senha:</string>
+    <string name="confirmPassword">Confirmar Senha:</string>
     <string name="registerTxt">Não tens conta? Regista-te!</string>
     <string name="passwordField">Senha:</string>
     <string name="weighingDate">Data de Pesagem:</string>
@@ -28,4 +28,7 @@
     <string name="logoutTxt">Sair</string>
     <string name="calculateIMCTxt">Calcular Novo IMC</string>
     <string name="userInfo">Informações do Utilizador</string>
+    <string name="changePassword">Alterar Senha</string>
+    <string name="currentPassword">Senha Atual:</string>
+    <string name="newPassword">Nova Senha:</string>
 </resources>
