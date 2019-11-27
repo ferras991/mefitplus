@@ -9,21 +9,21 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name=".PasswordRecuperation"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:parentActivityName=".LoginActivity"/>
         <activity
             android:name=".ImcCalculationActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".MainActivity"/>
-
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".RegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".LoginActivity"/>
-
+            android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
-
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">

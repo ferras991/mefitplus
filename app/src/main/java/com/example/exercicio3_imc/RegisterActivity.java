@@ -62,9 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        this.getSupportActionBar().setTitle(
-                getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.register)
-        );
+        this.getSupportActionBar().setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.register));
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -194,6 +192,7 @@ public class RegisterActivity extends AppCompatActivity {
                             builder.show();
 
                             dialog.dismiss();
+                            registerBtn.setEnabled(true);
                         }
                     });
         }

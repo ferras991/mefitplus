@@ -64,6 +64,10 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case R.id.registerTxt:
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                break;
+            case R.id.passwordResetTxt:
+                startActivity(new Intent(LoginActivity.this, PasswordRecuperation.class));
+                break;
             default:
                 break;
         }
@@ -89,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
             emailField.setError(getResources().getString(R.string.fields_empty_error));
             loginBtn.setEnabled(true);
             registerTxt.setEnabled(true);
-
         }
 
         if (passwordField.getText().toString().isEmpty()) {
