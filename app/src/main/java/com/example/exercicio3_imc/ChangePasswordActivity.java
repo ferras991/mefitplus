@@ -84,11 +84,15 @@ public class ChangePasswordActivity extends AppCompatActivity {
         if (newPassword.getText().toString().isEmpty()) {
             newPassword.setError(getResources().getString(R.string.fields_empty_error));
             saveBtn.setEnabled(true);
+        } else if (!newPassword.getText().toString().equals(confirmPassword.getText().toString())) {
+            newPassword.setError(getResources().getString(R.string.passwords_match));
         }
 
         if (confirmPassword.getText().toString().isEmpty()) {
             confirmPassword.setError(getResources().getString(R.string.fields_empty_error));
             saveBtn.setEnabled(true);
+        }else if (!newPassword.getText().toString().equals(confirmPassword.getText().toString())) {
+            newPassword.setError(getResources().getString(R.string.passwords_match));
         }
     }
 }
