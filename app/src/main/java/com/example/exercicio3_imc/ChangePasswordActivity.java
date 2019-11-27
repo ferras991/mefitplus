@@ -3,6 +3,7 @@ package com.example.exercicio3_imc;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -21,6 +23,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     private EditText currentPassword, newPassword, confirmPassword;
     private Button saveBtn;
+
+    private ProgressDialog dialog;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -44,6 +48,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     public void onClickChangePassword(View view) {
         saveBtn.setEnabled(false);
+        dialog = ProgressDialog.show(ChangePasswordActivity.this, "",
+                "Loading. Please wait...", true);
+        dialog.setCancelable(false);
 
         if (currentPassword.getText().toString().isEmpty() || newPassword.getText().toString().isEmpty()
             || confirmPassword.getText().toString().isEmpty()) {
@@ -67,8 +74,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                         } else {
                                             Toast.makeText(ChangePasswordActivity.this, "Error!", Toast.LENGTH_LONG).show();
                                         }
+                                        dialog.dismiss();
                                     }
-                                });
+                                })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(ChangePasswordActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        });
                     }
                 }
             });
@@ -94,5 +109,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         }else if (!newPassword.getText().toString().equals(confirmPassword.getText().toString())) {
             newPassword.setError(getResources().getString(R.string.passwords_match));
         }
+
+        dialog.dismiss();
     }
 }
