@@ -78,14 +78,16 @@ public class LoginActivity extends AppCompatActivity {
                 getResources().getString(R.string.LoadingTxt), true);
         dialog.setCancelable(false);
 
-        loginBtn.setEnabled(false);
-        registerTxt.setEnabled(false);
+//        loginBtn.setEnabled(false);
+//        registerTxt.setEnabled(false);
+//
+//        if (emailField.getText().toString().isEmpty() || passwordField.getText().toString().isEmpty()) {
+//            checkAllFields();
+//        } else {
+//            getInfo();
+//        }
 
-        if (emailField.getText().toString().isEmpty() || passwordField.getText().toString().isEmpty()) {
-            checkAllFields();
-        } else {
-            getInfo();
-        }
+        getInfo();
     }
 
     private void checkAllFields() {
@@ -105,8 +107,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getInfo() {
-        String email = emailField.getText().toString();
-        String password = passwordField.getText().toString();
+//        String email = emailField.getText().toString();
+//        String password = passwordField.getText().toString();
+
+        String email = "ferrasdocas@gmail.com";
+        String password = "123456789";
+
+
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
