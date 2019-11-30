@@ -152,7 +152,7 @@ public class ImcCalculationActivity extends AppCompatActivity {
 
             String date = (now.get(Calendar.DAY_OF_MONTH)) + "-" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.YEAR);
 
-            Imc imcClass = new Imc(date, imc, pmax, pmin, ig, mg, at, mineral, protein);
+            Imc imcClass = new Imc(timeFormat.format(time), date, imc, pmax, pmin, ig, mg, at, mineral, protein);
 
             final ProgressDialog dialog = ProgressDialog.show(ImcCalculationActivity.this, "",
                     "Loading. Please wait...", true);

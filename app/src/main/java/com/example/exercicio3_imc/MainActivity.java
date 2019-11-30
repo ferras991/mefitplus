@@ -1,25 +1,20 @@
 package com.example.exercicio3_imc;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.exercicio3_imc.Adapters.ImcAdapter;
-import com.example.exercicio3_imc.Adapters.MyExpandableAdapter;
 import com.example.exercicio3_imc.Class.ChildList;
 import com.example.exercicio3_imc.Class.Imc;
 import com.example.exercicio3_imc.Class.MyChildViewHolder;
@@ -27,7 +22,6 @@ import com.example.exercicio3_imc.Class.MyParentViewHolder;
 import com.example.exercicio3_imc.Class.ParentList;
 import com.example.exercicio3_imc.Globals.Globals;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +31,6 @@ import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -130,23 +123,20 @@ public class MainActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             final List<ChildList> Child = new ArrayList<>();
 
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                final String ChildValue =  ds.getValue().toString();
 
-                            for (DataSnapshot snapshot1:dataSnapshot.getChildren())
-                            {
-                                final String ChildValue =  snapshot1.getValue().toString();
-
-                                snapshot1.child("titre").getValue();
+                                ds.child("titre").getValue();
 
                                 Child.add(new ChildList(ChildValue));
-
                             }
+
 
                             Parent.add(new ParentList(ParentKey, Child));
 
                             DocExpandableRecyclerAdapter adapter = new DocExpandableRecyclerAdapter(Parent);
 
                             recycler_view.setAdapter(adapter);
-
                         }
 
                         @Override
@@ -211,13 +201,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindChildViewHolder(MyChildViewHolder holder, int flatPosition, ExpandableGroup group, int childIndex) {
-
             final ChildList childItem = ((ParentList) group).getItems().get(childIndex);
             holder.onBind(childItem.getTitle());
             final String TitleChild=group.getTitle();
+
             holder.listChild.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+//                    Intent intent = new Intent(MainActivity.this, ShowUserImcActivity.class);
+//                    intent.putExtra("time+imc", childItem.getTitle());
+//                    startActivity(intent);
                     Toast toast = Toast.makeText(getApplicationContext(), TitleChild, Toast.LENGTH_SHORT);
                     toast.show();
                 }

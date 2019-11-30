@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ShowUserImcActivity"
+    android:layout_margin="20dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="IMC:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/imcShowImc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textSize="20sp"
+            android:layout_marginBottom="30dp"/>
+
+
+        <TextView
+            android:text="IMC:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/pminShowImc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textSize="20sp"
+            android:layout_marginBottom="30dp"/>
+
+    </LinearLayout>
+
+
+
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_margin="8sp"-->
+<!--        android:gravity="center_horizontal">-->
+
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/imc"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="8sp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/imc_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="IMC:"-->
+<!--                android:textSize="32sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/txtImc"-->
+<!--                android:layout_below="@+id/imc_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:enabled="false" />-->
+<!--        </RelativeLayout>-->
+
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/pmin"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="8sp"-->
+<!--            android:layout_marginTop="30sp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/pmin_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/userPmin"-->
+<!--                android:textSize="32sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/txtPmin"-->
+<!--                android:layout_below="@+id/pmin_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:enabled="false" />-->
+<!--        </RelativeLayout>-->
+
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/pmax"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="8sp"-->
+<!--            android:layout_marginTop="30sp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/pmax_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/userPmax"-->
+<!--                android:textSize="32sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/txtPmax"-->
+<!--                android:layout_below="@+id/pmax_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:enabled="false" />-->
+<!--        </RelativeLayout>-->
+
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/ig"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="8sp"-->
+<!--            android:layout_marginTop="30sp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/ig_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/userFatIndex"-->
+<!--                android:textSize="32sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/txtIg"-->
+<!--                android:layout_below="@+id/ig_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:enabled="false" />-->
+<!--        </RelativeLayout>-->
+
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/mg"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="8sp"-->
+<!--            android:layout_marginTop="30sp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/mg_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/userFatMass"-->
+<!--                android:textSize="32sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/txtMg"-->
+<!--                android:layout_below="@+id/mg_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:enabled="false" />-->
+<!--        </RelativeLayout>-->
+
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/at"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="8sp"-->
+<!--            android:layout_marginTop="30sp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/at_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/userTotalWater"-->
+<!--                android:textSize="32sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/txtAt"-->
+<!--                android:layout_below="@+id/at_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:enabled="false" />-->
+<!--        </RelativeLayout>-->
+
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/mineral"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="8sp"-->
+<!--            android:layout_marginTop="30sp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/mineral_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/userMineral"-->
+<!--                android:textSize="32sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/txtMineral"-->
+<!--                android:layout_below="@+id/mineral_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:enabled="false" />-->
+<!--        </RelativeLayout>-->
+
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/proteina"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="8sp"-->
+<!--            android:layout_marginTop="30sp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/proteina_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/userProtein"-->
+<!--                android:textSize="32sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/txtProteina"-->
+<!--                android:layout_below="@+id/proteina_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="20sp"-->
+<!--                android:enabled="false" />-->
+<!--        </RelativeLayout>-->
+
+<!--    </LinearLayout>-->
+
+</ScrollView>
+
+
+<!--    30-11-2019-->
+<!--    17-48-08-->
+<!--    date:-->
+<!--    "30-11-2019"-->
+<!--    imc:-->
+<!--    22.9-->
+<!--    imcAt:-->
+<!--    38.4-->
+<!--    imcIg:-->
+<!--    15.4-->
+<!--    imcMg:-->
+<!--    9.2-->
+<!--    imcMineral:-->
+<!--    4.1-->
+<!--    imcPmax:-->
+<!--    65.6-->
+<!--    imcPmin:-->
+<!--    52.5-->
+<!--    imcProtein:-->
+<!--    8.3-->
+<!--    time:-->
+<!--    "17-48-08"-->

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Imc implements Serializable {
 
+    private String time;
     private String date;
     private double imc;
     private double imcPmax;
@@ -17,7 +18,8 @@ public class Imc implements Serializable {
     public Imc() {
     }
 
-    public Imc(String date, double imc, double imcPmax, double imcPmin, double imcIg, double imcMg, double imcAt, double imcMineral, double imcProtein) {
+    public Imc(String time, String date, double imc, double imcPmax, double imcPmin, double imcIg, double imcMg, double imcAt, double imcMineral, double imcProtein) {
+        this.time = time;
         this.date = date;
         this.imc = imc;
         this.imcPmax = imcPmax;
@@ -27,6 +29,14 @@ public class Imc implements Serializable {
         this.imcAt = imcAt;
         this.imcMineral = imcMineral;
         this.imcProtein = imcProtein;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getDate() {

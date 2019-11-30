@@ -11,10 +11,11 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ShowUserImcActivity"></activity>
         <activity
             android:name=".ChangePasswordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".UserInfo"/>
+            android:parentActivityName=".UserInfo" />
         <activity
             android:name=".UserInfo"
             android:configChanges="keyboardHidden|orientation|screenSize"
