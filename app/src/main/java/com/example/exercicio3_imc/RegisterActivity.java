@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void onClickRegister(View view) {
         switch (view.getId()) {
             case R.id.birthDateRegister:
-                getData();
+                getDate();
                 break;
             case R.id.genderMRegister:
                 getGender("M");
@@ -97,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void getData() {
+    private void getDate() {
         //open a datepickerdialog to save the user birthday date
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
@@ -106,15 +106,16 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int selectedYear,
                                           int selectedMonth, int selectedDay) {
                         year = selectedYear;
-                        month = selectedMonth;
+                        month = (selectedMonth + 1);
                         day = selectedDay;
 
                         //render the birthDate
-                        birthField.setText(day + "/" + (month + 1) + "/" + year);
+                        birthField.setText(day + "-" + month + "-" + year);
                         birthField.setError(null);
                     }
                 }, day, month , year);
         datePickerDialog.updateDate(year, month, day);
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
 

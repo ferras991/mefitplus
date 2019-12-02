@@ -19,7 +19,7 @@
     <string name="confirmPassword">Confirmar Senha:</string>
     <string name="registerTxt">Não tens conta? Regista-te!</string>
     <string name="passwordField">Senha:</string>
-    <string name="weighingDate">Data de Pesagem:</string>
+    <string name="weightingDate">Data de Pesagem:</string>
     <string name="emptyField">Obrigatorio!</string>
     <string name="passwords_match">Senhas Não São Iguais!</string>
     <string name="userSuccess">Utilizador Criado Com Sucesso!</string>
@@ -41,4 +41,6 @@
     <string name="userIg">Índice de Gordura:</string>
     <string name="userMg">Massa Gorda:</string>
     <string name="userAt">Água Total:</string>
+    <string name="timeTxt">Horas:</string>
+    <string name="weighingDate">Data de pesagem:</string>
 </resources>

@@ -1,11 +1,10 @@
 package com.example.exercicio3_imc.Class;
 
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 import com.example.exercicio3_imc.R;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
-
-import java.util.ArrayList;
 
 public class MyChildViewHolder extends ChildViewHolder {
 
@@ -23,19 +22,16 @@ public class MyChildViewHolder extends ChildViewHolder {
         Sousdoc = Sousdoc.replace("{", "");
         Sousdoc = Sousdoc.replace("}", "");
 
-        ArrayList<String> cenas = new ArrayList<>();
-        String[] cenas2 = Sousdoc.split(", ");
+        for (String str : Sousdoc.split(", ")) {
+            String[] str2 = str.split("=");
 
-        for (String cenas3 : cenas2) {
-            String[] cenas1 = cenas3.split("=");
-
-            if (cenas1[0].equals("time")) {
-                time = cenas1[1];
-            } else if (cenas1[0].equals("imc")) {
-                imc = cenas1[1];
-            }
+            if (str2[0].equals("time")) time = str2[1].replace("-", ":");
+            if (str2[0].equals("imc")) imc = str2[1];
         }
-
-        listChild.setText(time + " - " + imc);
+        
+        String timeTxt = itemView.getContext().getResources().getString(R.string.timeTxt);
+        StringBuilder builder = new StringBuilder();
+        builder.append("<b>" + timeTxt + " </b>" + time + "<br><b>Imc: </b>" + imc);
+        listChild.setText(Html.fromHtml(builder.toString()));
     }
 }

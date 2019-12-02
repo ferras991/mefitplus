@@ -3,10 +3,13 @@ package com.example.exercicio3_imc;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.example.exercicio3_imc.Class.Imc;
@@ -68,12 +71,37 @@ public class ImcCalculationActivity extends AppCompatActivity {
             case R.id.calculateImcBtn:
                 calculateImc();
                 break;
-
             case R.id.keepweightBtn:
                 keepWeightBtn();
                 break;
+            case R.id.weightDateImcCalculation:
+                getDate();
+                break;
         }
     }
+
+    private void getDate() {
+        //open a datepickerdialog to save the user birthday date
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear,
+                                          int selectedMonth, int selectedDay) {
+                        year = selectedYear;
+                        month = (selectedMonth + 1);
+                        day = selectedDay;
+
+                        //render the birthDate
+                        birthField.setText(day + "-" + month + "-" + year);
+                        birthField.setError(null);
+                    }
+                }, day, month , year);
+        datePickerDialog.updateDate(year, month, day);
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show();
+    }
+
 
     private void calculateImc() {
         try{

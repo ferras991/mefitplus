@@ -40,4 +40,5 @@
     <string name="userIg">Fat Index (%):</string>
     <string name="userMg">Fat Mass:</string>
     <string name="userAt">Total Water:</string>
+    <string name="timeTxt">Time:</string>
 </resources>

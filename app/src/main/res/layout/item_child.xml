@@ -11,6 +11,7 @@
     android:background="#E0E0E0"
     android:divider="#FFFFFF"
     android:showDividers="middle"
+    android:layout_marginTop="5dp"
     android:dividerHeight="2dp">
 
     <TextView

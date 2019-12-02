@@ -1,21 +1,24 @@
 package com.example.exercicio3_imc;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.EditText;
-
-import java.util.ArrayList;
 
 public class ShowUserImcActivity extends AppCompatActivity {
 
     private EditText imcTxt, pminTxt, pmaxTxt, igTxt, mgTxt, atTxt, mineralTxt, proteinTxt;
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_user_imc);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         imcTxt = findViewById(R.id.imcShowImc);
         pminTxt = findViewById(R.id.pminShowImc);

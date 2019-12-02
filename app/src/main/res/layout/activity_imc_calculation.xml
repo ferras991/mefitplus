@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Weight Stuff -->
         <TextView
             android:text="@string/userWeight"
             android:layout_width="wrap_content"
@@ -27,7 +28,9 @@
             android:inputType="numberDecimal"
             android:textSize="20sp"
             android:layout_marginBottom="30dp"/>
+        <!-- End Weight Stuff -->
 
+        <!-- Weight Stuff -->
         <TextView
             android:text="@string/weighingDate"
             android:layout_width="wrap_content"
@@ -43,14 +46,18 @@
             android:inputType="date"
             android:textSize="20sp"
             android:layout_marginBottom="30dp" />
+        <!-- End Weight Stuff -->
 
+        <!-- Calculate Btn -->
         <Button
             android:id="@+id/calculateImcBtn"
             android:text="Calculate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onImcCalculationClick"/>
+        <!-- End Calculate Btn Stuff -->
 
+        <!-- Save Btn -->
         <Button
             android:id="@+id/keepweightBtn"
             android:text="Save"
@@ -58,6 +65,6 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:onClick="onImcCalculationClick"/>
+        <!-- End Save Btn -->
     </LinearLayout>
-
 </ScrollView>
