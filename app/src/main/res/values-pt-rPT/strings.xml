@@ -38,4 +38,7 @@
     <string name="passwordNotChange">Erro ao mudar a senha!</string>
     <string name="genderFemale">Feminino</string>
     <string name="genderMale">Masculino</string>
+    <string name="userIg">Índice de Gordura:</string>
+    <string name="userMg">Massa Gorda:</string>
+    <string name="userAt">Água Total:</string>
 </resources>

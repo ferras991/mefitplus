@@ -2,7 +2,6 @@ package com.example.exercicio3_imc.Class;
 
 import android.view.View;
 import android.widget.TextView;
-
 import com.example.exercicio3_imc.R;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;

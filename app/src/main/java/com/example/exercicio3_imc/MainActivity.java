@@ -1,6 +1,5 @@
 package com.example.exercicio3_imc;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,13 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.exercicio3_imc.Class.ChildList;
-import com.example.exercicio3_imc.Class.Imc;
 import com.example.exercicio3_imc.Class.MyChildViewHolder;
 import com.example.exercicio3_imc.Class.MyParentViewHolder;
 import com.example.exercicio3_imc.Class.ParentList;
@@ -29,31 +25,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-//    private DatabaseReference ref;
-//
-//    ArrayList<Imc> list;
-//    ArrayList<String> dates;
-//
-//    HashMap<String, List<Imc>> itemsMap;
-//
-//    RecyclerView recyclerView;
-
-
-
-
-
-
-
     private RecyclerView recycler_view;
-
-
-
-
 
     private FirebaseAuth mAuth;
 
@@ -80,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-
                 break;
             default:
                 return false;
@@ -89,22 +64,18 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        recycler_view = (RecyclerView) findViewById(R.id.recycler_Expand);
+        recycler_view = findViewById(R.id.recycler_Expand);
         recycler_view.setLayoutManager(new LinearLayoutManager(this));
 
-        //Initialize your Firebase app
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        // Reference to your entire Firebase database
         DatabaseReference parentReference = database.getReference().child("imcs").child(Globals.id);
 
-        //reading data from firebase
         parentReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -125,23 +96,18 @@ public class MainActivity extends AppCompatActivity {
 
                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                 final String ChildValue =  ds.getValue().toString();
-
                                 ds.child("titre").getValue();
-
                                 Child.add(new ChildList(ChildValue));
                             }
-
 
                             Parent.add(new ParentList(ParentKey, Child));
 
                             DocExpandableRecyclerAdapter adapter = new DocExpandableRecyclerAdapter(Parent);
-
                             recycler_view.setAdapter(adapter);
                         }
 
                         @Override
                         public void onCancelled(DatabaseError error) {
-                            // Failed to read value
                             System.out.println("Failed to read value." + error.toException());
                         }
 
@@ -153,27 +119,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-
-
-//        ref = FirebaseDatabase.getInstance().getReference().child("imcs").child(Globals.id).child("27-11-2019");
-//        ref = FirebaseDatabase.getInstance().getReference().child("imcs").child(Globals.id);
-
-//        recyclerView = findViewById(R.id.rv);
-
-
-
         mAuth = FirebaseAuth.getInstance();
-
     }
 
 
@@ -181,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public class DocExpandableRecyclerAdapter extends ExpandableRecyclerViewAdapter<MyParentViewHolder,MyChildViewHolder> {
-
 
         public DocExpandableRecyclerAdapter(List<ParentList> groups) {
             super(groups);
@@ -203,32 +148,25 @@ public class MainActivity extends AppCompatActivity {
         public void onBindChildViewHolder(MyChildViewHolder holder, int flatPosition, ExpandableGroup group, int childIndex) {
             final ChildList childItem = ((ParentList) group).getItems().get(childIndex);
             holder.onBind(childItem.getTitle());
-            final String TitleChild=group.getTitle();
 
-            holder.listChild.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Intent intent = new Intent(MainActivity.this, ShowUserImcActivity.class);
-//                    intent.putExtra("time+imc", childItem.getTitle());
-//                    startActivity(intent);
-                    Toast toast = Toast.makeText(getApplicationContext(), TitleChild, Toast.LENGTH_SHORT);
-                    toast.show();
+                    Intent intent = new Intent(MainActivity.this, ShowUserImcActivity.class);
+                    intent.putExtra("time+imc", childItem.getTitle());
+                    startActivity(intent);
                 }
-
             });
-
         }
 
         @Override
         public void onBindGroupViewHolder(MyParentViewHolder holder, int flatPosition, final ExpandableGroup group) {
             holder.setParentTitle(group);
 
-            if(group.getItems()==null)
-            {
-                holder.listGroup.setOnClickListener(  new View.OnClickListener() {
+            if(group.getItems() == null) {
+                holder.listGroup.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         Toast toast = Toast.makeText(getApplicationContext(), group.toString(), Toast.LENGTH_SHORT);
                         toast.show();
                     }
@@ -236,55 +174,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
-
-
     }
-
-
-
-
-
-
-
-
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-//        if (ref != null) {
-//            ref.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    if (list != null) {
-//                        list.clear();
-//                    }
-//
-//                    if (dataSnapshot.exists()) {
-//                        list = new ArrayList<>();
-//                        dates = new ArrayList<>();
-//
-//                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                            dates.add(ds.getKey());
-//                            list.add(ds.getValue(Imc.class));
-//                        }
-//
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                        builder.setMessage(dates.toString());
-//                        builder.show();
-//
-//                        ImcAdapter imcAdapter = new ImcAdapter(MainActivity.this, list);
-//                        recyclerView.setAdapter(imcAdapter);
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
-//        }
-    }
-
 }

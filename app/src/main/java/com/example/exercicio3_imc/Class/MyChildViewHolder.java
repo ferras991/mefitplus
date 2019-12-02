@@ -38,6 +38,4 @@ public class MyChildViewHolder extends ChildViewHolder {
 
         listChild.setText(time + " - " + imc);
     }
-
-
 }

@@ -3,15 +3,12 @@ package com.example.exercicio3_imc;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.exercicio3_imc.Class.Imc;
 import com.example.exercicio3_imc.Class.User;
 import com.example.exercicio3_imc.Globals.Globals;
@@ -20,13 +17,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class ImcCalculationActivity extends AppCompatActivity {
 
@@ -103,13 +97,14 @@ public class ImcCalculationActivity extends AppCompatActivity {
                 builder.setTitle("User IMC");
                 builder.setMessage(
                         "IMC: " + imc +
-                                "\nPmin: " + pmin +
-                                "\nPmax: " + pmax +
-                                "\nIg: " + ig +
-                                "\nMg: " + mg +
-                                "\nAt: " + at +
-                                "\nMineral: " + mineral +
-                                "\nProtein: " + protein);
+                        "\nPmin: " + pmin +
+                        "\nPmax: " + pmax +
+                        "\nIg: " + ig +
+                        "\nMg: " + mg +
+                        "\nAt: " + at +
+                        "\nMineral: " + mineral +
+                        "\nProtein: " + protein
+                );
 
                 builder.show();
 
