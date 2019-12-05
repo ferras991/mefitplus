@@ -9,6 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,15 +20,26 @@ import com.example.exercicio3_imc.Class.MyChildViewHolder;
 import com.example.exercicio3_imc.Class.MyParentViewHolder;
 import com.example.exercicio3_imc.Class.ParentList;
 import com.example.exercicio3_imc.Globals.Globals;
+import com.google.android.gms.common.util.ArrayUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.core.OrderBy;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
+
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -73,26 +87,44 @@ public class MainActivity extends AppCompatActivity {
         recycler_view = findViewById(R.id.recycler_Expand);
         recycler_view.setLayoutManager(new LinearLayoutManager(this));
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+
         DatabaseReference parentReference = database.getReference().child("imcs").child(Globals.id);
 
         parentReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final List<ParentList> Parent = new ArrayList<>();
-                for (final DataSnapshot snapshot : dataSnapshot.getChildren()){
 
+                for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String parentKey = snapshot.getKey();
 
-                    final String ParentKey = snapshot.getKey();
+                    long cenas = 9999999999999L - Long.parseLong(parentKey);
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(Long.parseLong(cenas + ""));
+
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+                    int month = calendar.get(Calendar.MONTH) + 1;
+                    int year = calendar.get(Calendar.YEAR);
+
+                    String day2 = day + "";
+                    String month2 = month + "";
+                    day2 = (day2.length() == 1) ? "0" + day+"" : day2+"";
+                    month2 = (month2.length() == 1) ? "0" + month : month2+"";
+
+                    final String ParentKey = day2 + "-" + month2+ "-" + year;
 
                     snapshot.child("titre").getValue();
 
                     DatabaseReference childReference =
-                            FirebaseDatabase.getInstance().getReference().child("imcs").child(Globals.id).child(ParentKey);
+                            FirebaseDatabase.getInstance().getReference().child("imcs").child(Globals.id).child(parentKey);
+
                     childReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            final List<ChildList> Child = new ArrayList<>();
+                            final ArrayList<ChildList> Child = new ArrayList<>();
 
                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                 final String ChildValue =  ds.getValue().toString();
@@ -101,6 +133,10 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             Parent.add(new ParentList(ParentKey, Child));
+
+//                            Collections.reverse(Parent);
+//                            Collections.sort(Parent, Collections.reverseOrder());
+
 
                             DocExpandableRecyclerAdapter adapter = new DocExpandableRecyclerAdapter(Parent);
                             recycler_view.setAdapter(adapter);
@@ -111,8 +147,9 @@ public class MainActivity extends AppCompatActivity {
                             System.out.println("Failed to read value." + error.toException());
                         }
 
-                    });}}
-
+                    });
+                }
+            }
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -135,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public MyParentViewHolder onCreateGroupViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_parent, parent, false);
-            return new MyParentViewHolder(view);
+            return new MyParentViewHolder(view, MainActivity.this);
         }
 
         @Override

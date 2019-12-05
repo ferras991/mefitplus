@@ -22,10 +22,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class ImcCalculationActivity extends AppCompatActivity {
+
+    private Calendar currentDate = Calendar.getInstance();
+    private int day = currentDate.get(Calendar.DAY_OF_MONTH);
+    private int month = currentDate.get(Calendar.MONTH);
+    private int year = currentDate.get(Calendar.YEAR);
 
     private EditText weightField, weightDate;
     private Button saveBtn;
@@ -92,9 +98,14 @@ public class ImcCalculationActivity extends AppCompatActivity {
                         month = (selectedMonth + 1);
                         day = selectedDay;
 
+                        String day2 = day + "";
+                        String month2 = month + "";
+                        day2 = (day2.length() == 1) ? "0" + day+"" : day2+"";
+                        month2 = (month2.length() == 1) ? "0" + month : month2+"";
+
                         //render the birthDate
-                        birthField.setText(day + "-" + month + "-" + year);
-                        birthField.setError(null);
+                        weightDate.setText(day2 + "-" + month2 + "-" + year);
+                        weightDate.setError(null);
                     }
                 }, day, month , year);
         datePickerDialog.updateDate(year, month, day);
@@ -169,19 +180,30 @@ public class ImcCalculationActivity extends AppCompatActivity {
     }
 
     private void keepWeightBtn() {
+        final ProgressDialog dialog = ProgressDialog.show(ImcCalculationActivity.this, "",
+                "Loading. Please wait...", true);
+        dialog.setCancelable(false);
         try{
             DateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
             Date time = new Date();
 
-            String date = (now.get(Calendar.DAY_OF_MONTH)) + "-" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.YEAR);
+            String date = weightDate.getText().toString();
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            ArrayList<Long> dtSec = new ArrayList<>();
+            ArrayList<String> dates2 = new ArrayList<>();
+            dates2.add(date);
+
+            Date dt = simpleDateFormat.parse(date);
+            long millis = dt.getTime();
 
             Imc imcClass = new Imc(timeFormat.format(time), date, imc, pmax, pmin, ig, mg, at, mineral, protein);
 
-            final ProgressDialog dialog = ProgressDialog.show(ImcCalculationActivity.this, "",
-                    "Loading. Please wait...", true);
-            dialog.setCancelable(false);
+            long cenas = 9999999999999L;
 
-            mDatabase.child(Globals.id).child(date).child(timeFormat.format(time)).setValue(imcClass)
+
+
+            mDatabase.child(Globals.id).child((cenas - millis) + "").child(timeFormat.format(time)).setValue(imcClass)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -195,11 +217,18 @@ public class ImcCalculationActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             dialog.dismiss();
-                            Toast.makeText(ImcCalculationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ImcCalculationActivity.this);
+                            builder.setMessage(e.getMessage());
+                            builder.show();
                         }
                     });
         } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(ImcCalculationActivity.this);
+            builder.setMessage(e.getMessage());
+            builder.show();
+
+            dialog.dismiss();
         }
 
     }
