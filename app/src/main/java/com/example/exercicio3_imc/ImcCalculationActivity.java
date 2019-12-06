@@ -100,16 +100,16 @@ public class ImcCalculationActivity extends AppCompatActivity {
 
                         String day2 = day + "";
                         String month2 = month + "";
-                        day2 = (day2.length() == 1) ? "0" + day+"" : day2+"";
-                        month2 = (month2.length() == 1) ? "0" + month : month2+"";
+                        day2 = (day2.length() == 1) ? "0" + day+"" : day2+""; // add a 0 if day is between 1 and 9
+                        month2 = (month2.length() == 1) ? "0" + month : month2+"";// add a 0 if month is between 1 and 9
 
                         //render the birthDate
                         weightDate.setText(day2 + "-" + month2 + "-" + year);
                         weightDate.setError(null);
                     }
                 }, day, month , year);
-        datePickerDialog.updateDate(year, month, day);
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.updateDate(year, month, day); // set today's date
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis()); // set today's day as max value
         datePickerDialog.show();
     }
 
@@ -117,21 +117,21 @@ public class ImcCalculationActivity extends AppCompatActivity {
     private void calculateImc() {
         try{
             if (weightField.getText().toString().isEmpty()) {
-                weightField.setError(getResources().getString(R.string.emptyField));
+                weightField.setError(getResources().getString(R.string.emptyField)); //render error
             } else {
-                double weight = Double.parseDouble(weightField.getText().toString());
+                double weight = Double.parseDouble(weightField.getText().toString()); // get weight
 
                 User user = new User();
-                imc = user.calculateImc(weight, Globals.height);
-                pmin = user.calculatePMin(Globals.height);
-                pmax = user.calculatePMax(Globals.height);
-                ig = user.calculateIg(calculateAge(), Globals.gender, imc);
-                mg = user.calculateMg(weight, ig);
-                at = user.calculateAt(Globals.gender, calculateAge(), Globals.height, weight);
-                mineral = user.calculateMineral(weight, mg, at);
-                protein = user.calculateProteina(weight, mg, at);
+                imc = user.calculateImc(weight, Globals.height); // calculate imc
+                pmin = user.calculatePMin(Globals.height); // calculate pmin
+                pmax = user.calculatePMax(Globals.height); // calculate pmax
+                ig = user.calculateIg(calculateAge(), Globals.gender, imc); // calculate ig
+                mg = user.calculateMg(weight, ig); // calculate mg
+                at = user.calculateAt(Globals.gender, calculateAge(), Globals.height, weight); // calculate at
+                mineral = user.calculateMineral(weight, mg, at); // calculate mineral
+                protein = user.calculateProteina(weight, mg, at); // calculate protein
 
-
+                // show user imc and the rest
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("User IMC");
                 builder.setMessage(
@@ -183,16 +183,14 @@ public class ImcCalculationActivity extends AppCompatActivity {
         final ProgressDialog dialog = ProgressDialog.show(ImcCalculationActivity.this, "",
                 "Loading. Please wait...", true);
         dialog.setCancelable(false);
-        try{
-            DateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
-            Date time = new Date();
 
+        try{
+            DateFormat timeFormat = new SimpleDateFormat("HH-mm-ss"); //set date format
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+            Date time = new Date();
             String date = weightDate.getText().toString();
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            ArrayList<Long> dtSec = new ArrayList<>();
-            ArrayList<String> dates2 = new ArrayList<>();
-            dates2.add(date);
 
             Date dt = simpleDateFormat.parse(date);
             long millis = dt.getTime();
@@ -200,8 +198,6 @@ public class ImcCalculationActivity extends AppCompatActivity {
             Imc imcClass = new Imc(timeFormat.format(time), date, imc, pmax, pmin, ig, mg, at, mineral, protein);
 
             long cenas = 9999999999999L;
-
-
 
             mDatabase.child(Globals.id).child((cenas - millis) + "").child(timeFormat.format(time)).setValue(imcClass)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
