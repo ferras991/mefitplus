@@ -16,7 +16,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".ChangePasswordActivity"
+            android:name=".ChangeEmailPasswordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName=".UserInfo" />
         <activity

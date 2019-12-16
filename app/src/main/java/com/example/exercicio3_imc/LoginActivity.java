@@ -4,24 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.load.model.stream.BaseGlideUrlLoader;
 import com.example.exercicio3_imc.Class.User;
 import com.example.exercicio3_imc.Globals.Globals;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -77,43 +72,41 @@ public class LoginActivity extends AppCompatActivity {
         dialog = ProgressDialog.show(LoginActivity.this, "",
                 getResources().getString(R.string.LoadingTxt), true);
         dialog.setCancelable(false);
+        dialog.show();
 
-//        loginBtn.setEnabled(false);
-//        registerTxt.setEnabled(false);
-//
-//        if (emailField.getText().toString().isEmpty() || passwordField.getText().toString().isEmpty()) {
-//            checkAllFields();
-//        } else {
-//            getInfo();
-//        }
+        loginBtn.setEnabled(false);
+        registerTxt.setEnabled(false);
 
-        getInfo();
+        if (!checkAllFields()) getInfo();
     }
 
-    private void checkAllFields() {
+    private boolean checkAllFields() {
+        boolean error = false;
+
         if (emailField.getText().toString().isEmpty()) {
             emailField.setError(getResources().getString(R.string.fields_empty_error));
             loginBtn.setEnabled(true);
             registerTxt.setEnabled(true);
+            error = true;
+
+            dialog.dismiss();
         }
 
         if (passwordField.getText().toString().isEmpty()) {
             passwordField.setError(getResources().getString(R.string.fields_empty_error));
             loginBtn.setEnabled(true);
             registerTxt.setEnabled(true);
+            error = true;
+
+            dialog.dismiss();
         }
 
-        dialog.dismiss();
+        return error;
     }
 
     private void getInfo() {
-//        String email = emailField.getText().toString();
-//        String password = passwordField.getText().toString();
-
-        String email = "ferrasdocas@gmail.com";
-        String password = "123456789";
-
-
+        String email = emailField.getText().toString();
+        String password = passwordField.getText().toString();
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
