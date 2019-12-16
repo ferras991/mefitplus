@@ -148,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
                         DocExpandableRecyclerAdapter adapter = new DocExpandableRecyclerAdapter(Parent);
                         recycler_view.setAdapter(adapter);
                     }
-
                 }
 
                 @Override
@@ -191,8 +190,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onLongClick(View view) {
                     new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("Delete Registry")
-                            .setMessage("Are you certain that you want to del this entry?")
+                            .setTitle(getResources().getString(R.string.delEntryTitle))
+                            .setMessage(getResources().getString(R.string.delEntryText))
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     String time = holder.listChild.getText().toString();
@@ -201,11 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                             })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(MainActivity.this, "Cenas", Toast.LENGTH_SHORT).show();
-                                }
-                            })
+                            .setNegativeButton("Cancel", null)
                             .show();
 
                     return false;
@@ -226,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
         public void onBindGroupViewHolder(MyParentViewHolder holder, int flatPosition, final ExpandableGroup group) {
             holder.setParentTitle(group);
 
-            if(group.getItems() == null) {
+            if (group.getItems() == null) {
                 holder.listGroup.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
