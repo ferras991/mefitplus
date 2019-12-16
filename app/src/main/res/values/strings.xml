@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MeFit+</string>
+    <string name="app_name" translatable="false">MeFit+</string>
     <string name="userName">Name:</string>
     <string name="userWeight">"Weight: "</string>
     <string name="userHeight">"Height: "</string>
@@ -41,4 +41,8 @@
     <string name="userMg">Fat Mass:</string>
     <string name="userAt">Total Water:</string>
     <string name="timeTxt">Time:</string>
+    <string name="delEntryTitle">Delete Entry</string>
+    <string name="delEntryText">Are you certain that you want to del this entry?</string>
+    <string name="newEmail">New Email:</string>
+    <string name="emailNotSent">Email Not Sent!</string>
 </resources>

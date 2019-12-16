@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">IMC</string>
     <string name="userName">Nome:</string>
     <string name="userWeight">"Massa: "</string>
     <string name="userHeight">"Altura: "</string>
@@ -42,4 +41,8 @@
     <string name="userAt">Água Total:</string>
     <string name="timeTxt">Horas:</string>
     <string name="weighingDate">Data de pesagem:</string>
+    <string name="delEntryTitle">Eliminar registo</string>
+    <string name="delEntryText">Tem a certeza que quer eliminar este registo?</string>
+    <string name="newEmail">Novo email:</string>
+    <string name="emailNotSent">O email não foi enviado!</string>
 </resources>
