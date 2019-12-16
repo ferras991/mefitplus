@@ -3,7 +3,6 @@ package com.example.exercicio3_imc;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -116,9 +114,7 @@ public class ImcCalculationActivity extends AppCompatActivity {
 
     private void calculateImc() {
         try{
-            if (weightField.getText().toString().isEmpty()) {
-                weightField.setError(getResources().getString(R.string.emptyField)); //render error
-            } else {
+            if (!checkError()) {
                 double weight = Double.parseDouble(weightField.getText().toString()); // get weight
 
                 User user = new User();
@@ -136,13 +132,13 @@ public class ImcCalculationActivity extends AppCompatActivity {
                 builder.setTitle("User IMC");
                 builder.setMessage(
                         "IMC: " + imc +
-                        "\nPmin: " + pmin +
-                        "\nPmax: " + pmax +
-                        "\nIg: " + ig +
-                        "\nMg: " + mg +
-                        "\nAt: " + at +
-                        "\nMineral: " + mineral +
-                        "\nProtein: " + protein
+                                "\nPmin: " + pmin +
+                                "\nPmax: " + pmax +
+                                "\nIg: " + ig +
+                                "\nMg: " + mg +
+                                "\nAt: " + at +
+                                "\nMineral: " + mineral +
+                                "\nProtein: " + protein
                 );
 
                 builder.show();
@@ -153,6 +149,17 @@ public class ImcCalculationActivity extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private boolean checkError() {
+        boolean error = false;
+
+        if (weightField.getText().toString().isEmpty()) {
+            weightField.setError(getResources().getString(R.string.emptyField)); //render error
+            error = true;
+        }
+
+        return error;
     }
 
     private int calculateAge() {
