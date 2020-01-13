@@ -132,111 +132,131 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void register() {
         dialog = ProgressDialog.show(RegisterActivity.this, "",
-                "Loading. Please wait...", true);
+                getResources().getString(R.string.LoadingTxt), true);
         dialog.setCancelable(false);
 
         registerBtn.setEnabled(false);
 
-        if (emailField.getText().toString().isEmpty() || passwordField.getText().toString().isEmpty()
-                || confirmPasswordField.getText().toString().isEmpty() || txtName.getText().toString().isEmpty()
-                || txtWeight.getText().toString().isEmpty() || txtHeight.getText().toString().isEmpty()
-                || birthField.getText().toString().isEmpty()) {
-            checkAllFields();
-        } else {
-            final String email = emailField.getText().toString();
-            String password = passwordField.getText().toString();
-            final String name = txtName.getText().toString();
-            final double weight = Double.parseDouble(txtWeight.getText().toString());
-            final double height = Double.parseDouble(txtHeight.getText().toString());
-            final String birthDate = birthField.getText().toString();
-            final int gender = (genderM.isChecked()) ? 1 : 0 ;
+        try {
 
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            Toast.makeText(RegisterActivity.this, getResources().getString(R.string.userSuccess), Toast.LENGTH_LONG).show();
+            if (!checkAllFields()) {
+                final String email = emailField.getText().toString();
+                String password = passwordField.getText().toString();
+                final String name = txtName.getText().toString();
+                final double weight = Double.parseDouble(txtWeight.getText().toString());
+                final double height = Double.parseDouble(txtHeight.getText().toString());
+                final String birthDate = birthField.getText().toString();
+                final int gender = (genderM.isChecked()) ? 1 : 0 ;
 
-                            final String uid = mAuth.getUid();
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                                Toast.makeText(RegisterActivity.this, getResources().getString(R.string.userSuccess), Toast.LENGTH_LONG).show();
 
-                            User user = new User(uid, name, weight, height, birthDate, gender);
+                                final String uid = mAuth.getUid();
 
-                            mDatabase.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        sendToMain(uid, name, weight, height, birthDate,gender);
+                                User user = new User(uid, name, weight, height, birthDate, gender/*, email*/);
+
+                                mDatabase.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            sendToMain(uid, name, weight, height, birthDate,gender);
+                                        }
+                                        dialog.dismiss();
                                     }
-                                    dialog.dismiss();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                                    builder.setTitle(getResources().getString(R.string.userFail));
-                                    builder.setMessage(e.getMessage());
-                                    builder.show();
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                                        builder.setTitle(getResources().getString(R.string.userFail));
+                                        builder.setMessage(e.getMessage());
+                                        builder.show();
 
-                                    dialog.dismiss();
+                                        dialog.dismiss();
+                                        registerBtn.setEnabled(true);
+                                    }
+                                });
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                                builder.setTitle(getResources().getString(R.string.userFail));
+                                builder.setMessage(e.getMessage());
+                                builder.show();
 
-                                    registerBtn.setEnabled(true);
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                            builder.setTitle(getResources().getString(R.string.userFail));
-                            builder.setMessage(e.getMessage());
-                            builder.show();
-
-                            dialog.dismiss();
-                            registerBtn.setEnabled(true);
-                        }
-                    });
+                                dialog.dismiss();
+                                registerBtn.setEnabled(true);
+                            }
+                        });
+            }
+        } catch (Exception e) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(e.getMessage());
+            builder.show();
         }
+
     }
 
-    private void checkAllFields(){
+    private boolean checkAllFields(){
+        boolean error = false;
+
         if (emailField.getText().toString().isEmpty()) {
             emailField.setError(getResources().getString(R.string.fields_empty_error));
+            dialog.dismiss();
+            error = true;
         }
 
         if (passwordField.getText().toString().isEmpty()) {
             passwordField.setError(getResources().getString(R.string.fields_empty_error));
+            dialog.dismiss();
+            error = true;
         }
 
         if (confirmPasswordField.getText().toString().isEmpty()) {
             confirmPasswordField.setError(getResources().getString(R.string.fields_empty_error));
+            dialog.dismiss();
+            error = true;
         }
 
         if (!passwordField.getText().toString().equals(confirmPasswordField.getText().toString())
-                && !confirmPasswordField.getText().toString().isEmpty()
-                && !passwordField.getText().toString().isEmpty()) {
+            && !passwordField.getText().toString().isEmpty()
+            && !confirmPasswordField.getText().toString().isEmpty()) {
             passwordField.setError(getResources().getString(R.string.passwords_match));
             confirmPasswordField.setError(getResources().getString(R.string.passwords_match));
+            dialog.dismiss();
+            error = true;
         }
 
         if (txtName.getText().toString().isEmpty()) {
             txtName.setError(getResources().getString(R.string.fields_empty_error));
+            dialog.dismiss();
+            error = true;
         }
 
         if (txtWeight.getText().toString().isEmpty()) {
             txtWeight.setError(getResources().getString(R.string.fields_empty_error));
+            dialog.dismiss();
+            error = true;
         }
 
         if (txtHeight.getText().toString().isEmpty()) {
             txtHeight.setError(getResources().getString(R.string.fields_empty_error));
+            dialog.dismiss();
+            error = true;
         }
 
         if (birthField.getText().toString().isEmpty()) {
             birthField.setError(getResources().getString(R.string.fields_empty_error));
+            dialog.dismiss();
+            error = true;
         }
 
-        dialog.dismiss();
         registerBtn.setEnabled(true);
+        return error;
     }
 
     private void sendToMain(final String userId, String name, double weight, double height, String birthDate, int gender) {
