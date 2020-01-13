@@ -64,34 +64,43 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.register));
 
+        // FireBase Variables
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
+        // User Fields
         emailField = findViewById(R.id.emailFieldRegister);
         passwordField = findViewById(R.id.passwordFieldRegister);
         confirmPasswordField = findViewById(R.id.confirmPasswordFieldRegister);
+
+        // Buttons
         registerBtn = findViewById(R.id.registerBtn);
 
+        // User Info Fields
         txtName = findViewById(R.id.nameRegister); // name
         txtWeight = findViewById(R.id.weightRegister); // weight
         txtHeight = findViewById(R.id.heightRegister); // height
         birthField = findViewById(R.id.birthDateRegister); // age
         genderM = findViewById(R.id.genderMRegister); // gender
-        genderF = findViewById(R.id.genderFRegister); // gende
+        genderF = findViewById(R.id.genderFRegister); // gender
     }
 
     public void onClickRegister(View view) {
         switch (view.getId()) {
             case R.id.birthDateRegister:
+                // get the date for the datePicker
                 getDate();
                 break;
             case R.id.genderMRegister:
+                // set the gender as male
                 getGender("M");
                 break;
             case R.id.genderFRegister:
+                // set the gender as female
                 getGender("");
                 break;
             case R.id.registerBtn:
+                // go to the registration funtion
                 register();
                 break;
         }
@@ -114,8 +123,8 @@ public class RegisterActivity extends AppCompatActivity {
                         birthField.setError(null);
                     }
                 }, day, month , year);
-        datePickerDialog.updateDate(year, month, day);
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.updateDate(year, month, day); // set the today's date
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis()); // set the date max
         datePickerDialog.show();
     }
 
